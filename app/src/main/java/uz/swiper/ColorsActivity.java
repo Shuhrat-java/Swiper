@@ -1,5 +1,6 @@
 package uz.swiper;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import java.lang.reflect.Modifier;
@@ -17,14 +18,17 @@ public class ColorsActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.view_pager);
 
         ArrayList<VPModel> modelArrayList = new ArrayList<>();
-        String[] colors = {"#9400D3", "#4B0082", "#0000FF", "#00FF00", "#FFFF00", "#FF7F00", "#FF0000"};
+        int[] colors = {Color.RED, Color.MAGENTA, Color.YELLOW, Color.GREEN,
+                Color.BLUE, Color.CYAN, Color.BLACK};
+        String[] colorNames = {"Red","Magenta","Yellow","Green","Blue","Cyan","Black"};
         for (int i = 0; i < colors.length; i++) {
             VPModel model = new VPModel();
             model.setColor(colors[i]);
-            model.setColorName("RED");
+            model.setColorName(colorNames[i]);
             modelArrayList.add(model);
         }
 
         viewPager.setAdapter(new VPCustomAdapter(modelArrayList, ColorsActivity.this));
+
     }
 }

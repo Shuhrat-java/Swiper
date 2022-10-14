@@ -1,7 +1,7 @@
 package uz.swiper;
 
 public class VPModel {
-    private String color;//#FF0000
+    private int color;//#FF0000
     private String colorName;
 
     public String getColorName() {
@@ -12,11 +12,11 @@ public class VPModel {
         this.colorName = colorName;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 }
