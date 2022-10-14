@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,13 +20,18 @@ import androidx.annotation.RequiresApi;
 import androidx.viewpager.widget.PagerAdapter;
 
 public class VPCustomAdapter extends PagerAdapter {
+
     ArrayList<VPModel> list = new ArrayList<>();
     private Context mContext;
-    private MediaPlayer player;
+    private ClickListener ls;
+
+    public void setPagerClickListener(ClickListener listener) {
+        ls = listener;
+    }
+
     public VPCustomAdapter(ArrayList<VPModel> vpModels, Context context) {
         this.list = vpModels;
         mContext = context;
-        player = new MediaPlayer();
     }
 
     @Override
@@ -36,29 +42,23 @@ public class VPCustomAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
+
         VPModel model = list.get(position);
 
         TextView vpItem = (TextView) LayoutInflater.from(mContext).inflate(R.layout.vp_item, container, false);
 
-        TextView itemView = vpItem;
-        itemView.setBackgroundColor(model.getColor());// #FF
-        itemView.setText(model.getColorName());
+        vpItem.setBackgroundColor(model.getColor());// #FF
+        vpItem.setText(model.getColorName());
+
         vpItem.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-
-                try {
-                    player.reset();
-                    AssetFileDescriptor as = mContext.getAssets().openFd(model.getColorName().toLowerCase(Locale.ROOT)+".mp3");
-                    player.setDataSource(as.getFileDescriptor(),as.getStartOffset(),as.getLength());
-                    player.prepare();
-                    player.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (ls != null) {
+                    ls.onPagerItemClick(model);
                 }
             }
         });
+
         container.addView(vpItem);
 
         return vpItem;
